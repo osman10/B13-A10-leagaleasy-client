@@ -1,3 +1,5 @@
+
+import HeroSection from "@/components/HeroSection";
 import Navbar from "@/components/Navbar";
 import TopLink from "@/components/TopLink";
 
@@ -7,6 +9,7 @@ const MainPage = () => {
     <div>
       <TopLink />
       <Navbar/>
+      <HeroSection/>
     </div>
   );
 };
