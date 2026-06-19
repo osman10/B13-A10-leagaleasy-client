@@ -11,6 +11,7 @@ import {
   Bars,
   Xmark,
 } from "@gravity-ui/icons";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +31,7 @@ export default function Navbar() {
       fetchOptions: {
         onSuccess: () => {
           window.location.href = "/";
+          toast.success("Logged out successfully");
         },
       },
     });

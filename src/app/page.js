@@ -6,7 +6,7 @@ import SponsorsSection from "@/components/SponsorsSection";
 
 const MainPage = () => {
   return (
-    <div >
+    <div className="container mx-auto px-6 py-12 bg-white">
 
       <HeroSection/>
       <SponsorsSection/>
