@@ -45,7 +45,7 @@ const TopLink = () => {
                   Mail
                 </h3>
                 <p className="text-xs text-slate-500">
-                  info@legaleasy.com
+                  osman.mirpur55@gmail.com
                 </p>
               </div>
             </div>
@@ -58,7 +58,7 @@ const TopLink = () => {
 
               <div className="leading-tight">
                 <h3 className="text-sm font-semibold text-slate-800">
-                  Call
+                  Call / WhatsApp
                 </h3>
                 <p className="text-xs text-slate-500">
                   +88 01737 290987

@@ -1,15 +1,15 @@
 
 import HeroSection from "@/components/HeroSection";
-import Navbar from "@/components/Navbar";
-import TopLink from "@/components/TopLink";
+import SponsorsSection from "@/components/SponsorsSection";
+
 
 
 const MainPage = () => {
   return (
-    <div>
-      <TopLink />
-      <Navbar/>
+    <div >
+
       <HeroSection/>
+      <SponsorsSection/>
     </div>
   );
 };

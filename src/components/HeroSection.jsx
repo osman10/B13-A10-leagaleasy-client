@@ -32,7 +32,9 @@ export default function HeroSection() {
               transition={{ duration: 0.5 }}
               className="mt-5 text-4xl md:text-5xl font-bold text-slate-900 leading-tight"
             >
-              LegalEase – Online Lawyer Hiring Platform
+              <span className="bg-gradient-to-r from-[#0081E0]  to-[#44a8ef] bg-clip-text text-transparent font-bold">
+                LegalEase
+              </span> – Online Lawyer Hiring Platform
             </motion.h1>
 
             {/* Description */}
@@ -95,17 +97,20 @@ export default function HeroSection() {
             transition={{ duration: 0.6 }}
             className="relative"
           >
-<div className="relative z-10 rounded-2xl overflow-hidden shadow-xl border h-[320px] md:h-[420px]">
-  
-  <Image
-    src="/images/Law1.jpeg"
-    alt="Law Image"
-    fill
-    className="object-cover"
-    priority
-  />
+            <motion.div
+              whileHover={{ scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              className="relative z-10 rounded-2xl overflow-hidden shadow-xl border h-[320px] md:h-[420px]"
+            >
+              <Image
+                src="/images/law.jpg"
+                alt="Law Image"
+                fill
+                className="object-cover"
+                priority
+              />
+            </motion.div>
 
-</div>
             {/* Glow */}
             <div className="absolute -top-10 -right-10 w-72 h-72 bg-[#0081E0]/10 blur-3xl rounded-full" />
             <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-indigo-200/30 blur-3xl rounded-full" />
