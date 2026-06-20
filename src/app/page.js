@@ -4,12 +4,14 @@ import SponsorsSection from "@/components/SponsorsSection";
 
 
 
+
 const MainPage = () => {
   return (
-    <div className="container mx-auto px-6 py-12 bg-white">
+    <div className="bg-white">
 
-      <HeroSection/>
-      <SponsorsSection/>
+      <HeroSection />
+      <SponsorsSection />
+
     </div>
   );
 };
