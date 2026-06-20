@@ -121,7 +121,7 @@ const LoginPage = () => {
           </div>
         </div>
 
-        {/* Google Login */}
+        Google Login
         <button
           type="button"
           onClick={handleGoogleLogin}

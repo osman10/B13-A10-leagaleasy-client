@@ -15,11 +15,11 @@ import { toast } from "react-toastify";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
+  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
 
+  const pathname = usePathname();
   const { data: session } = authClient.useSession();
   const userSession = session?.user || null;
-
 
   const navLinkClass = (path) =>
     `transition font-medium hover:text-yellow-200 ${
@@ -59,12 +59,47 @@ export default function Navbar() {
               Browse Lawyers
             </Link>
 
-            <Link
-              href="/dashboard"
-              className={navLinkClass("/dashboard")}
-            >
-              Dashboard
-            </Link>
+            {/* Dashboard Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setIsDashboardOpen(!isDashboardOpen)}
+                className={`transition font-medium hover:text-yellow-200 ${
+                  pathname.startsWith("/dashboard")
+                    ? "text-yellow-300 font-semibold"
+                    : "text-white"
+                }`}
+              >
+                Dashboard
+              </button>
+
+              {isDashboardOpen && (
+                <div className="absolute left-0 mt-2 w-48 rounded-md bg-white text-[#0081E0] shadow-lg overflow-hidden">
+                  <Link
+                    href="/dashboard/admin"
+                    onClick={() => setIsDashboardOpen(false)}
+                    className="block px-4 py-2 hover:bg-blue-100"
+                  >
+                    Admin
+                  </Link>
+
+                  <Link
+                    href="/dashboard/lawyer"
+                    onClick={() => setIsDashboardOpen(false)}
+                    className="block px-4 py-2 hover:bg-blue-100"
+                  >
+                    Lawyer
+                  </Link>
+
+                  <Link
+                    href="/dashboard/client"
+                    onClick={() => setIsDashboardOpen(false)}
+                    className="block px-4 py-2 hover:bg-blue-100"
+                  >
+                    Client
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Desktop Auth */}
@@ -149,13 +184,34 @@ export default function Navbar() {
                 Browse Lawyers
               </Link>
 
-              <Link
-                href="/dashboard"
-                onClick={() => setIsOpen(false)}
-                className={navLinkClass("/dashboard")}
-              >
-                Dashboard
-              </Link>
+              {/* Mobile Dashboard */}
+              <div className="flex flex-col gap-2">
+                <span className="font-medium text-white">Dashboard</span>
+
+                <Link
+                  href="/dashboard/admin"
+                  onClick={() => setIsOpen(false)}
+                  className="pl-3 text-white/90 hover:text-yellow-200"
+                >
+                  Admin
+                </Link>
+
+                <Link
+                  href="/dashboard/lawyer"
+                  onClick={() => setIsOpen(false)}
+                  className="pl-3 text-white/90 hover:text-yellow-200"
+                >
+                  Lawyer
+                </Link>
+
+                <Link
+                  href="/dashboard/client"
+                  onClick={() => setIsOpen(false)}
+                  className="pl-3 text-white/90 hover:text-yellow-200"
+                >
+                  Client
+                </Link>
+              </div>
 
               <hr className="border-blue-400" />
 
