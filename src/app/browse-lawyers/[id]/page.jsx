@@ -1,193 +1,175 @@
-"use client";
+import LoginPage from "@/components/LoginPage";
+import { getUserSession } from "@/lib/core/session";
+import Image from "next/image";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+const Page = async ({ params }) => {
+  const { id } = await params;
 
-export default function UpdateLawyer() {
-  const { id } = useParams();
-//   console.log("Editing lawyer with ID:", id);
-  const router = useRouter();
+  const session = await getUserSession();
+  const redirect = `/browse-lawyers/${id}`
 
-  const [form, setForm] = useState({
-    name: "",
-    specialization: "",
-    bio: "",
-    consultationFee: "",
-    status: "",
-    email: "",
-    phone: "",
-    profileImage: "",
-    yearsOfExperience: "",
-    barLicenseNumber: "",
-    location: "",
-  });
-
-  const [loading, setLoading] = useState(true);
-
-  // Fetch lawyer data
-  useEffect(() => {
-    const fetchLawyer = async () => {
-      try {
-        const res = await fetch(`http://localhost:5000/lawyers/${id}`);
-        const data = await res.json();
-
-        setForm(data);
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-        setLoading(false);
-      }
-    };
-
-    if (id) fetchLawyer();
-  }, [id]);
-
-  // Handle input change
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  // Submit update
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const res = await fetch(`http://localhost:5000/lawyers/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-
-      const result = await res.json();
-
-      if (res.ok) {
-        toast.success("Lawyer updated successfully!");
-        router.push("/lawyers");
-      } else {
-        toast.error(result.message || "Update failed");
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error(err);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="text-center mt-10 text-gray-500">Loading...</div>
-    );
+  // Not logged in
+  if (!session) {
+    return <LoginPage redirect={redirect}/>;
   }
 
+
+  const res = await fetch(
+    `${process.env.SERVER_URL}/lawyers/${id}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  const lawyer = await res.json();
+
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">
-        Update Lawyer
-      </h1>
+    <div className="container mx-auto px-4 py-10">
+      <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
+        {/* Hero Section */}
+        <div className="bg-gradient-to-r from-blue-600 to-[#0081E0] p-8 text-white">
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <Image
+              width={300}
+              height={200}
+              src={lawyer.profileImage}
+              alt={lawyer.name}
+              className="w-40 h-40 rounded-full border-4 border-white object-cover"
+            />
 
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded-xl p-6 space-y-4"
-      >
-        <input
-          name="name"
-          value={form.name || ""}
-          onChange={handleChange}
-          placeholder="Name"
-          className="w-full border p-2 rounded"
-        />
+            <div>
+              <h1 className="text-4xl font-bold">{lawyer.name}</h1>
+              <p className="text-xl mt-2">{lawyer.specialization}</p>
 
-        <input
-          name="specialization"
-          value={form.specialization || ""}
-          onChange={handleChange}
-          placeholder="Specialization"
-          className="w-full border p-2 rounded"
-        />
+              <div className="flex flex-wrap gap-3 mt-4">
+                <span className="bg-white/20 px-3 py-1 rounded-full">
+                  ⭐ {lawyer.rating}
+                </span>
 
-        <textarea
-          name="bio"
-          value={form.bio || ""}
-          onChange={handleChange}
-          placeholder="Bio"
-          className="w-full border p-2 rounded"
-        />
+                <span
+                  className={`px-3 py-1 rounded-full ${
+                    lawyer.status === "Available"
+                      ? "bg-green-500"
+                      : "bg-red-500"
+                  }`}
+                >
+                  {lawyer.status}
+                </span>
 
-        <input
-          type="number"
-          name="consultationFee"
-          value={form.consultationFee || ""}
-          onChange={handleChange}
-          placeholder="Consultation Fee"
-          className="w-full border p-2 rounded"
-        />
+                <span className="bg-white/20 px-3 py-1 rounded-full">
+                  {lawyer.yearsOfExperience} Years Experience
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <input
-          name="status"
-          value={form.status || ""}
-          onChange={handleChange}
-          placeholder="Status"
-          className="w-full border p-2 rounded"
-        />
+        {/* Details Section */}
+        <div className="p-8">
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Left */}
+            <div>
+              <h2 className="text-2xl font-semibold mb-4">
+                Professional Information
+              </h2>
 
-        <input
-          name="email"
-          value={form.email || ""}
-          onChange={handleChange}
-          placeholder="Email"
-          className="w-full border p-2 rounded"
-        />
+              <div className="space-y-3 text-gray-700">
+                <p>
+                  <strong>Bar License:</strong>{" "}
+                  {lawyer.barLicenseNumber}
+                </p>
 
-        <input
-          name="phone"
-          value={form.phone || ""}
-          onChange={handleChange}
-          placeholder="Phone"
-          className="w-full border p-2 rounded"
-        />
+                <p>
+                  <strong>Location:</strong> {lawyer.location}
+                </p>
 
-        <input
-          name="profileImage"
-          value={form.profileImage || ""}
-          onChange={handleChange}
-          placeholder="Profile Image URL"
-          className="w-full border p-2 rounded"
-        />
+                <p>
+                  <strong>Consultation Fee:</strong> $
+                  {lawyer.consultationFee}
+                </p>
 
-        <input
-          type="number"
-          name="yearsOfExperience"
-          value={form.yearsOfExperience || ""}
-          onChange={handleChange}
-          placeholder="Years of Experience"
-          className="w-full border p-2 rounded"
-        />
+                <p>
+                  <strong>Cases Handled:</strong>{" "}
+                  {lawyer.totalCasesHandled}
+                </p>
 
-        <input
-          name="barLicenseNumber"
-          value={form.barLicenseNumber || ""}
-          onChange={handleChange}
-          placeholder="Bar License Number"
-          className="w-full border p-2 rounded"
-        />
+                <p>
+                  <strong>Date Joined:</strong>{" "}
+                  {lawyer.dateJoined}
+                </p>
+              </div>
 
-        <input
-          name="location"
-          value={form.location || ""}
-          onChange={handleChange}
-          placeholder="Location"
-          className="w-full border p-2 rounded"
-        />
+              <div className="mt-8">
+                <h3 className="text-xl font-semibold mb-3">
+                  Languages
+                </h3>
 
-        <button
-          type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
-        >
-          Update Lawyer
-        </button>
-      </form>
+                <div className="flex flex-wrap gap-2">
+                  {lawyer.languages}
+                </div>
+              </div>
+            </div>
+
+            {/* Right */}
+            <div>
+              <h2 className="text-2xl font-semibold mb-4">
+                Contact Information
+              </h2>
+
+              <div className="space-y-3 text-gray-700">
+                <p>
+                  <strong>Email:</strong> {lawyer.email}
+                </p>
+
+                <p>
+                  <strong>Phone:</strong> {lawyer.phone}
+                </p>
+              </div>
+
+              <div className="mt-8">
+                <h3 className="text-xl font-semibold mb-3">
+                  Education
+                </h3>
+
+                <ul className="space-y-2">
+                  {lawyer.education?.map((edu, index) => (
+                    <li
+                      key={index}
+                      className="bg-gray-100 p-3 rounded-lg"
+                    >
+                      🎓 {edu}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Bio */}
+          <div className="mt-10">
+            <h2 className="text-2xl font-semibold mb-4">
+              About Lawyer
+            </h2>
+
+            <p className="text-gray-600 leading-relaxed">
+              {lawyer.bio}
+            </p>
+          </div>
+
+          {/* CTA */}
+          <div className="mt-10 flex flex-col sm:flex-row gap-4">
+            <button className="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition">
+              Book Consultation
+            </button>
+
+            <button className="border border-blue-600 text-blue-600 px-6 py-3 rounded-xl hover:bg-blue-50 transition">
+              Send Message
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default Page;

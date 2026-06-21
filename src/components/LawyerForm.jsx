@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 export default function LawyerForm({userId}) {
     console.log("user id from form" , userId)
+    const [saveProfile, setSaveProfile]=useState("Save Profile")
     const [form, setForm] = useState({
         name: "",
         specialization: "",
@@ -83,6 +84,7 @@ const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+        setSaveProfile("Saving...")
         // Remove empty fields so they don't overwrite existing data
         const filteredData = Object.fromEntries(
             Object.entries(form).filter(([_, value]) => {
@@ -110,12 +112,12 @@ const handleSubmit = async (e) => {
         if (!response.ok) {
             throw new Error(data.message || "Failed to update profile");
         }
-
+        setSaveProfile("Save Profile")
         toast.success("Profile updated successfully!");
 
-        console.log(data);
+  
     } catch (error) {
-        console.error(error);
+ 
         toast.error(error.message);
     }
 };
@@ -333,7 +335,7 @@ const handleSubmit = async (e) => {
                     type="submit"
                     className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700"
                 >
-                    Save Profile
+                    {saveProfile}
                 </button>
             </form>
         </div>

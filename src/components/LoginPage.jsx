@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const LoginPage = () => {
+const LoginPage = ({redirect}) => {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
@@ -22,7 +22,7 @@ const handleLogin = async (e) => {
     const result = await authClient.signIn.email({
       email,
       password,
-      callbackURL: "/",
+      callbackURL: `${redirect}`,
     });
 
     if (result?.error) {

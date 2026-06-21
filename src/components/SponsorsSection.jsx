@@ -7,12 +7,12 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 
 const sponsors = [
-  "/images/sponsor1.png",
-  "/images/sponsor2.png",
-  "/images/sponsor3.png",
-  "/images/sponsor4.png",
-  "/images/sponsor5.png",
-  "/images/sponsor6.png",
+  "/images/sponsor1.jpg",
+  "/images/sponsor2.jpg",
+  "/images/sponsor3.jpg",
+  "/images/sponsor4.jpg",
+  "/images/sponsor5.jpg",
+  "/images/sponsor6.jpg",
 ];
 
 export default function SponsorsSection() {
