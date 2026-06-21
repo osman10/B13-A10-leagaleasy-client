@@ -6,6 +6,17 @@ const client = new MongoClient(process.env.MONGODB_URI);
 const db = client.db("legaleasy");
 
 export const auth = betterAuth({
+    user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        defaultValue: "client",
+      },
+    },
+  },
+
+
+
     emailAndPassword: {
         enabled: true,
         autoSignIn: false,

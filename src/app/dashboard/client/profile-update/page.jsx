@@ -1,9 +1,14 @@
-import React from 'react';
+import LawyerForm from '@/components/LawyerForm';
+import { getUserSession } from '@/lib/core/session';
 
-const page = () => {
+
+const page =async () => {
+    const userData =await getUserSession();
+    const userId = userData.id;
+
     return (
         <div>
-            Update profile
+            <LawyerForm userId={userId}/>
         </div>
     );
 };

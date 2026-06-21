@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "react-toastify";
 
-export default function LawyerForm() {
+export default function LawyerForm({userId}) {
+    console.log("user id from form" , userId)
     const [form, setForm] = useState({
         name: "",
         specialization: "",
@@ -77,13 +79,49 @@ export default function LawyerForm() {
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Submitted Data:", form);
-    };
+const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+        // Remove empty fields so they don't overwrite existing data
+        const filteredData = Object.fromEntries(
+            Object.entries(form).filter(([_, value]) => {
+                if (Array.isArray(value)) {
+                    return value.some(item => item.trim() !== "");
+                }
+
+                return value !== "" && value !== null && value !== undefined;
+            })
+        );
+
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/lawyers/${userId}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(filteredData),
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Failed to update profile");
+        }
+
+        toast.success("Profile updated successfully!");
+
+        console.log(data);
+    } catch (error) {
+        console.error(error);
+        toast.error(error.message);
+    }
+};
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white shadow-xl rounded-2xl">
+        <div className="mx-auto p-6 bg-white shadow-xl rounded-2xl">
             <h2 className="text-2xl font-bold mb-6 text-gray-800">
                 Lawyer Profile Form
             </h2>
