@@ -7,6 +7,9 @@ export default function LawyersList({ lawyers }) {
   const [search, setSearch] = useState("");
   const[loading, setLoading]=useState(false)
 
+
+
+
   const filteredLawyers = useMemo(() => {
     return lawyers?.filter((lawyer) =>
       [
@@ -20,6 +23,8 @@ export default function LawyersList({ lawyers }) {
         .includes(search.toLowerCase())
     );
   }, [lawyers, search]);
+
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">

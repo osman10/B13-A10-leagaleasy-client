@@ -12,6 +12,7 @@ import {
   Xmark,
 } from "@gravity-ui/icons";
 import { toast } from "react-toastify";
+import Search from "./Search";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -102,6 +103,10 @@ export default function Navbar() {
             </div>
           </div>
 
+
+
+
+  
           {/* Desktop Auth */}
           <div className="hidden md:flex items-center gap-3">
             {userSession ? (
@@ -214,7 +219,7 @@ export default function Navbar() {
               </div>
 
               <hr className="border-blue-400" />
-
+              <Search/>
               {userSession ? (
                 <>
                   <div className="flex items-center gap-3">

@@ -1,3 +1,4 @@
+import HiringButton from "@/components/HiringButton";
 import LoginPage from "@/components/LoginPage";
 import { auth } from "@/lib/auth";
 
@@ -10,14 +11,18 @@ const Page = async ({ params }) => {
   const { id } = await params;
 
   const session = await getUserSession();
+  const userId = session?.id;
+
+
+  // Redirect URL after login
   const redirect = `/browse-lawyers/${id}`
 
   // Not logged in
   if (!session) {
-    return <LoginPage redirect={redirect}/>;
+    return <LoginPage redirect={redirect} />;
   }
 
-  const {token} = await auth.api.getToken({
+  const { token } = await auth.api.getToken({
     headers: await headers()
   })
 
@@ -25,13 +30,31 @@ const Page = async ({ params }) => {
     `${process.env.SERVER_URL}/lawyers/${id}`,
     {
       headers: {
-        Authorization : `Bearer ${token}`
+        Authorization: `Bearer ${token}`
       },
       cache: "no-store",
     }
   );
 
   const lawyer = await res.json();
+
+  const { _id, name, profileImage, specialization, consultationFee } = lawyer;
+
+  // Hiring information to send database
+  const hiringInfo = {
+    lawyerId: _id, 
+    lawyerName: name, 
+    lawyerImg: profileImage, 
+    lawyerSpecialization: specialization, 
+    lawyerConsultationFee: consultationFee, 
+    clientId: userId,
+    status: "Pending"
+  }
+
+
+
+
+
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -57,11 +80,10 @@ const Page = async ({ params }) => {
                 </span>
 
                 <span
-                  className={`px-3 py-1 rounded-full ${
-                    lawyer.status === "Available"
+                  className={`px-3 py-1 rounded-full ${lawyer.status === "Available"
                       ? "bg-green-500"
                       : "bg-red-500"
-                  }`}
+                    }`}
                 >
                   {lawyer.status}
                 </span>
@@ -168,13 +190,7 @@ const Page = async ({ params }) => {
 
           {/* CTA */}
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <button className="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition">
-              Book Consultation
-            </button>
-
-            <button className="border border-blue-600 text-blue-600 px-6 py-3 rounded-xl hover:bg-blue-50 transition">
-              Send Message
-            </button>
+            <HiringButton hiringInfo={hiringInfo} token={token}/>
           </div>
         </div>
       </div>

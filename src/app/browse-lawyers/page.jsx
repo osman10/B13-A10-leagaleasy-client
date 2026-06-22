@@ -8,13 +8,12 @@ import Loading from '@/components/Loading';
 
 const page = async () => {
 
-
-
   const res = await fetch(`${process.env.SERVER_URL}/lawyers`, {
     cache: "no-store",
   });
-
   const lawyers = await res.json();
+
+
   if (!lawyers) {
     return <Loading />
   }

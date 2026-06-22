@@ -1,18 +1,35 @@
-const Layout = ({ children }) => {
-  return (
-    <div className="container mx-auto">
-      <div className="flex h-screen w-full">
-        {/* Sidebar */}
-        <aside className="w-64 h-full p-4 border-r border-gray-200">
-          <p className="text-red-400 font-semibold">Sidebar</p>
-        </aside>
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
+import Sidebar from "./Sidebar";
 
-        {/* Main Content */}
-        <main className="flex-1 p-6 overflow-auto">
-          {children}
-        </main>
-      </div>
-    </div>
+const Layout = async ({ children }) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  // Not logged in
+  if (!session?.user) {
+    redirect("/login");
+  }
+
+  // Not an admin
+  if (session.user.role !== "Admin") {
+    redirect("/unauthorized");
+  }
+
+  return (
+   <div className="min-h-screen flex bg-gray-100 container mx-auto">
+         {/* Sidebar */}
+         <Sidebar />
+   
+         {/* Main area */}
+         <div className="flex-1 flex flex-col">
+   
+           {/* Page content */}
+           <main className="p-6 mt-4 md:mt-0 md:mt-0flex-1">{children}</main>
+         </div>
+       </div>
   );
 };
 
