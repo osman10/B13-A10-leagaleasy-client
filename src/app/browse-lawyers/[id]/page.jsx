@@ -1,5 +1,9 @@
 import LoginPage from "@/components/LoginPage";
+import { auth } from "@/lib/auth";
+
 import { getUserSession } from "@/lib/core/session";
+
+import { headers } from "next/headers";
 import Image from "next/image";
 
 const Page = async ({ params }) => {
@@ -13,10 +17,16 @@ const Page = async ({ params }) => {
     return <LoginPage redirect={redirect}/>;
   }
 
+  const {token} = await auth.api.getToken({
+    headers: await headers()
+  })
 
   const res = await fetch(
     `${process.env.SERVER_URL}/lawyers/${id}`,
     {
+      headers: {
+        Authorization : `Bearer ${token}`
+      },
       cache: "no-store",
     }
   );
