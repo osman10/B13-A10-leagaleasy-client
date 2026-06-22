@@ -8,8 +8,6 @@ import { Dots9 } from "@gravity-ui/icons";
 const navItems = [
   { name: "Update Profile", href: "/dashboard/client/profile-update" },
   { name: "Heiring history", href: "/dashboard/client/history" },
-  { name: "Users", href: "/dashboard/client/users" },
-  { name: "Settings", href: "/dashboard/client/settings" },
 ];
 
 export default function Sidebar() {

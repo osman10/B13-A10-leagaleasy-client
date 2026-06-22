@@ -17,7 +17,7 @@ const Layout = async ({ children }) => {
   if (session.user.role !== "Admin") {
     redirect("/unauthorized");
   }
-
+const admin = 
   return (
    <div className="min-h-screen flex bg-gray-100 container mx-auto">
          {/* Sidebar */}

@@ -74,7 +74,7 @@ export default function HeroSection() {
               className="mt-8 flex items-center gap-4"
             >
               <Link
-                href="#"
+                href="/browse-lawyers"
                 className="px-6 py-3 rounded-lg bg-[#0081E0] text-white font-medium hover:bg-[#006fbe] transition"
               >
                 Get Started

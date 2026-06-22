@@ -40,16 +40,25 @@ const Page = async ({ params }) => {
 
   const { _id, name, profileImage, specialization, consultationFee } = lawyer;
 
+  const date = new Date().toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+
   // Hiring information to send database
   const hiringInfo = {
-    lawyerId: _id, 
-    lawyerName: name, 
-    lawyerImg: profileImage, 
-    lawyerSpecialization: specialization, 
-    lawyerConsultationFee: consultationFee, 
+    lawyerId: _id,
+    lawyerName: name,
+    lawyerImg: profileImage,
+    lawyerSpecialization: specialization,
+    lawyerConsultationFee: consultationFee,
     clientId: userId,
-    status: "Pending"
+    status: "Pending",
+    date: date
   }
+
 
 
 
@@ -81,8 +90,8 @@ const Page = async ({ params }) => {
 
                 <span
                   className={`px-3 py-1 rounded-full ${lawyer.status === "Available"
-                      ? "bg-green-500"
-                      : "bg-red-500"
+                    ? "bg-green-500"
+                    : "bg-red-500"
                     }`}
                 >
                   {lawyer.status}
@@ -190,8 +199,29 @@ const Page = async ({ params }) => {
 
           {/* CTA */}
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <HiringButton hiringInfo={hiringInfo} token={token}/>
+
+            {/* {lawyer.status==="Busy"? <button>Busy</button>:  <HiringButton hiringInfo={hiringInfo} token={token} />} */}
+            {
+              lawyer.status === "Busy" ? (
+                <button className="bg-red-500 text-white px-6 py-3 font-bold rounded-xl cursor-not-allowed opacity-80">
+                  Lawyer is Busy
+                </button>
+              ) : lawyer.status === "Offline" ? (
+                <button className="bg-green-500 text-white px-6 py-3 font-bold rounded-xl cursor-not-allowed opacity-80">
+                 Lawyer is Offline
+                </button>
+              ) : (
+                <HiringButton hiringInfo={hiringInfo} token={token} />
+              )
+            }
+
+
+
+
+
           </div>
+
+
         </div>
       </div>
     </div>

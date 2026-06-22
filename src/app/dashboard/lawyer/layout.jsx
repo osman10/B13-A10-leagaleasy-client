@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import Sidebar from "./Sidebar";
+import { getLawyers } from "@/app/data/Data";
 
 export default async function DashboardLayout({ children }) {
   const session = await auth.api.getSession({
@@ -18,18 +19,22 @@ export default async function DashboardLayout({ children }) {
     redirect("/unauthorized");
   }
 
+  const sessionUserId = session.user.id;
+
+  // Fetch lawyer data
+  const lawyer = await getLawyers(sessionUserId);
+
   return (
     <div className="min-h-screen flex bg-gray-100 container mx-auto">
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar lawyer={lawyer} />
 
       {/* Main area */}
       <div className="flex-1 flex flex-col">
-        {/* Page content */}
         <main className="flex-1 p-6 mt-4 md:mt-0">
           {children}
         </main>
       </div>
     </div>
   );
-}
+};

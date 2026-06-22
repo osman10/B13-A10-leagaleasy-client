@@ -3,13 +3,23 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Dots9 } from "@gravity-ui/icons";
+import {
+  Dots9,
+  PencilToSquare,
+  Clock,
+} from "@gravity-ui/icons";
 
 const navItems = [
-  { name: "Update Profile", href: "/dashboard/client/profile-update" },
-  { name: "Heiring history", href: "/dashboard/client/history" },
-  { name: "Users", href: "/dashboard/client/users" },
-  { name: "Settings", href: "/dashboard/client/settings" },
+  {
+    name: "Update Profile",
+    href: "/dashboard/admin/profile-update",
+    icon: PencilToSquare,
+  },
+  {
+    name: "Hiring History",
+    href: "/dashboard/admin/hiring-info",
+    icon: Clock,
+  },
 ];
 
 export default function Sidebar() {
@@ -20,7 +30,7 @@ export default function Sidebar() {
     const isActive = pathname === href;
 
     return `
-      block px-3 py-2 rounded transition
+      flex items-center gap-2 px-3 py-2 rounded transition
       ${isActive ? "bg-gray-800 text-white" : "text-gray-800"}
       hover:bg-gray-800 hover:text-white
     `;
@@ -28,12 +38,12 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile toggle button */}
+      {/* Mobile toggle */}
       <button
         onClick={() => setOpen(!open)}
         className="md:hidden fixed top-16 w-full p-2 bg-gray-900 text-white"
       >
-        <Dots9 />
+        <Dots9 className="w-5 h-5" />
       </button>
 
       {/* Sidebar */}
@@ -56,6 +66,7 @@ export default function Sidebar() {
               onClick={() => setOpen(false)}
               className={linkClass(item.href)}
             >
+              <item.icon className="w-5 h-5" />
               {item.name}
             </Link>
           ))}
