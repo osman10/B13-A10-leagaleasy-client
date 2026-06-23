@@ -43,6 +43,7 @@ const page = async() => {
     return (
         <div>
             <LawyerForm lawyer={lawyer} userId={userId}/>
+            Lawyer Form
         </div>
     );
 };

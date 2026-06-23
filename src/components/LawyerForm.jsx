@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -109,9 +110,14 @@ export default function LawyerForm({ userId, lawyer }) {
     }
   };
 
+
+  
+
   // Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+      const {data:tokenData} = await authClient.token();
+      const token = tokenData.token;
 
     try {
       setSaveProfile("Saving...");
@@ -131,6 +137,7 @@ export default function LawyerForm({ userId, lawyer }) {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
           },
           body: JSON.stringify(filteredData),
         }

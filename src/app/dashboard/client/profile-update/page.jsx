@@ -4,8 +4,9 @@ import { getUserSession } from '@/lib/core/session';
 
 const page =async () => {
     const userData =await getUserSession();
+  
     const userId = userData.id;
-
+  
     return (
         <div>
             <LawyerForm userId={userId}/>

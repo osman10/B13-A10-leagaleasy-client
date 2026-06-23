@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "../auth";
 import { headers } from "next/headers";
 
+
 export const getUserSession = async () => {
     const session = await auth.api.getSession({
         headers: await headers() // some endpoints might require headers

@@ -1,4 +1,6 @@
 import { getLawyer } from "@/app/data/Data";
+import CommentBox from "@/components/CommentBox";
+import CommentList from "@/components/CommentList";
 import HiringButton from "@/components/HiringButton";
 import LoginPage from "@/components/LoginPage";
 import { auth } from "@/lib/auth";
@@ -13,7 +15,7 @@ const Page = async ({ params }) => {
 
   const session = await getUserSession();
   const userId = session?.id;
-
+  const userImg = session?.image;
 
   // Redirect URL after login
   const redirect = `/browse-lawyers/${id}`
@@ -39,6 +41,7 @@ const date = new Date().toLocaleDateString("en-US", {
   });
 
 
+
   // Hiring information to send database
 const hiringInfo = {
     lawyerId: _id,
@@ -53,7 +56,7 @@ const hiringInfo = {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
+      <div className="bg-white rounded-3xl shadow-sm overflow-hidden">
         {/* Hero Section */}
         <div className="bg-gradient-to-r from-blue-600 to-[#0081E0] p-8 text-white">
           <div className="flex flex-col md:flex-row items-center gap-8">
@@ -210,6 +213,10 @@ const hiringInfo = {
 
         </div>
       </div>
+      {/* lawyerId, userId */}
+      <CommentBox lawyerId={_id} userId={sessionUserId} userImg={userImg}/>
+      {/* lawyerId */}
+      {/* <CommentList lawyerId={_id}/> */}
     </div>
   );
 };

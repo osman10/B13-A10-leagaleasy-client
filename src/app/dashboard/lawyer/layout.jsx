@@ -2,7 +2,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import Sidebar from "./Sidebar";
-import { getLawyers } from "@/app/data/Data";
+import { getLawyer } from "@/app/data/Data";
+
 
 export default async function DashboardLayout({ children }) {
   const session = await auth.api.getSession({
@@ -19,13 +20,14 @@ export default async function DashboardLayout({ children }) {
     redirect("/unauthorized");
   }
 
-  const sessionUserId = session.user.id;
+  const sessionUserId = session?.user.id;
 
 
   
 
   // Fetch lawyer data
-  const lawyer = await getLawyers(sessionUserId);
+  const lawyer = await getLawyer(sessionUserId);
+  console.log(lawyer)
 
   return (
     <div className="min-h-screen flex bg-gray-100 container mx-auto">
