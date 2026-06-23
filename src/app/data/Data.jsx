@@ -28,9 +28,57 @@ export async function getAdmins() {
   return res.json();
 }
 
+// Get single admin 
+export async function getAdmin(sessionUserId) {
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+
+  const res = await fetch(
+    `${process.env.SERVER_URL}/admin/${sessionUserId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+  if (!res.ok) {
+    redirect("/error");
+  }
+  return res.json();
+};
+
+
+
+
+
+//Get all lawyers
+export async function getLawyers() {
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+
+  const res = await fetch(
+    `${process.env.SERVER_URL}/lawyers`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch lawyers");
+  }
+
+  return res.json();
+};
+
 
 // Get single Lawyers
-export async function getLawyers(sessionUserId) {
+export async function getLawyer(sessionUserId) {
   const { token } = await auth.api.getToken({
     headers: await headers(),
   });
@@ -49,6 +97,8 @@ export async function getLawyers(sessionUserId) {
   }
   return res.json();
 };
+
+
 
 // Get all clients
 export async function getClients() {
@@ -70,6 +120,27 @@ export async function getClients() {
     throw new Error("Failed to fetch clients");
   }
 
+  return res.json();
+};
+
+// Get single clients
+export async function getClient(sessionUserId) {
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+
+  const res = await fetch(
+    `${process.env.SERVER_URL}/clients/${sessionUserId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+  if (!res.ok) {
+    redirect("/error");
+  }
   return res.json();
 };
 

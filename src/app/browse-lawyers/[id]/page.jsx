@@ -1,3 +1,4 @@
+import { getLawyer } from "@/app/data/Data";
 import HiringButton from "@/components/HiringButton";
 import LoginPage from "@/components/LoginPage";
 import { auth } from "@/lib/auth";
@@ -26,21 +27,12 @@ const Page = async ({ params }) => {
     headers: await headers()
   })
 
-  const res = await fetch(
-    `${process.env.SERVER_URL}/lawyers/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      cache: "no-store",
-    }
-  );
+const sessionUserId = id;
+const lawyer = await getLawyer(sessionUserId)
 
-  const lawyer = await res.json();
+const { _id, name, profileImage, specialization, consultationFee } = lawyer;
 
-  const { _id, name, profileImage, specialization, consultationFee } = lawyer;
-
-  const date = new Date().toLocaleDateString("en-US", {
+const date = new Date().toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -48,7 +40,7 @@ const Page = async ({ params }) => {
 
 
   // Hiring information to send database
-  const hiringInfo = {
+const hiringInfo = {
     lawyerId: _id,
     lawyerName: name,
     lawyerImg: profileImage,
@@ -58,12 +50,6 @@ const Page = async ({ params }) => {
     status: "Pending",
     date: date
   }
-
-
-
-
-
-
 
   return (
     <div className="container mx-auto px-4 py-10">

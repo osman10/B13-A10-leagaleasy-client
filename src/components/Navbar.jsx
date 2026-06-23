@@ -12,7 +12,7 @@ import {
   Xmark,
 } from "@gravity-ui/icons";
 import { toast } from "react-toastify";
-import Search from "./Search";
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,8 +23,7 @@ export default function Navbar() {
   const userSession = session?.user || null;
 
   const navLinkClass = (path) =>
-    `transition font-medium hover:text-yellow-200 ${
-      pathname === path ? "text-yellow-300 font-semibold" : "text-white"
+    `transition font-medium hover:text-yellow-200 ${pathname === path ? "text-yellow-300 font-semibold" : "text-white"
     }`;
 
   const logout = async () => {
@@ -64,13 +63,29 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => setIsDashboardOpen(!isDashboardOpen)}
-                className={`transition font-medium hover:text-yellow-200 ${
-                  pathname.startsWith("/dashboard")
+                className={`transition font-medium hover:text-yellow-200 flex items-center gap-1 ${pathname.startsWith("/dashboard")
                     ? "text-yellow-300 font-semibold"
                     : "text-white"
-                }`}
+                  }`}
               >
                 Dashboard
+
+                {/* Dropdown Icon */}
+                <svg
+                  className={`w-4 h-4 transition-transform duration-200 ${isDashboardOpen ? "rotate-180" : ""
+                    }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
               </button>
 
               {isDashboardOpen && (
@@ -102,11 +117,7 @@ export default function Navbar() {
               )}
             </div>
           </div>
-
-
-
-
-  
+ 
           {/* Desktop Auth */}
           <div className="hidden md:flex items-center gap-3">
             {userSession ? (
@@ -219,7 +230,7 @@ export default function Navbar() {
               </div>
 
               <hr className="border-blue-400" />
-              <Search/>
+   
               {userSession ? (
                 <>
                   <div className="flex items-center gap-3">

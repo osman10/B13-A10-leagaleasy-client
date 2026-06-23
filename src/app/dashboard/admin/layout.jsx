@@ -2,8 +2,9 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import Sidebar from "./Sidebar";
+import { getAdmin } from "@/app/data/Data";
 
-const Layout = async ({ children }) => {
+export default async function DashboardLayout({ children }) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -13,24 +14,30 @@ const Layout = async ({ children }) => {
     redirect("/login");
   }
 
-  // Not an admin
+  // Not a lawyer
   if (session.user.role !== "Admin") {
     redirect("/unauthorized");
   }
-const admin = 
+
+  const sessionUserId = session.user.id;
+
+
+  
+
+  // Fetch lawyer data
+  const admin = await getAdmin(sessionUserId);
+
   return (
-   <div className="min-h-screen flex bg-gray-100 container mx-auto">
-         {/* Sidebar */}
-         <Sidebar />
-   
-         {/* Main area */}
-         <div className="flex-1 flex flex-col">
-   
-           {/* Page content */}
-           <main className="p-6 mt-4 md:mt-0 md:mt-0flex-1">{children}</main>
-         </div>
-       </div>
+    <div className="min-h-screen flex bg-gray-100 container mx-auto">
+      {/* Sidebar */}
+      <Sidebar admin={admin} />
+
+      {/* Main area */}
+      <div className="flex-1 flex flex-col">
+        <main className="flex-1 p-6 mt-4 md:mt-0">
+          {children}
+        </main>
+      </div>
+    </div>
   );
 };
-
-export default Layout;

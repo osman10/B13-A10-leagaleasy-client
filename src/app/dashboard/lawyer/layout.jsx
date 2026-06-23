@@ -21,6 +21,9 @@ export default async function DashboardLayout({ children }) {
 
   const sessionUserId = session.user.id;
 
+
+  
+
   // Fetch lawyer data
   const lawyer = await getLawyers(sessionUserId);
 

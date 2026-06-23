@@ -1,63 +1,66 @@
 "use client";
 
-import { Magnifier } from "@gravity-ui/icons";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const Search = () => {
-  const [search, setSearch] = useState("");
-  const [lawyers, setLawyers] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function GlobalSearch() {
+  const [query, setQuery] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchLawyers = async () => {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/lawyers`
-        );
+  const router = useRouter();
 
-        const data = await res.json();
-        setLawyers(data);
-      } catch (error) {
-        console.error("Failed to fetch lawyers:", error);
-      } finally {
-        setLoading(false);
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    if (!query.trim()) return;
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/lawyers/search?q=${query}`
+      );
+
+      const data = await res.json();
+
+      setLoading(false);
+
+      if (data && data.length > 0) {
+        const firstLawyer = data[0];
+
+        router.push(`/browse-lawyers/${firstLawyer._id}`);
+      } else {
+        setError("No data found");
       }
-    };
-
-    fetchLawyers();
-  }, []);
-
-  const filteredLawyers = useMemo(() => {
-    return lawyers.filter((lawyer) =>
-      [
-        lawyer.name,
-        lawyer.specialization,
-        lawyer.location,
-        lawyer.barLicenseNumber,
-      ]
-        .join(" ")
-        .toLowerCase()
-        .includes(search.toLowerCase())
-    );
-  }, [lawyers, search]);
+    } catch (err) {
+      setLoading(false);
+      setError("Something went wrong");
+    }
+  };
 
   return (
-    <div className="space-y-6">
-      <div className="w-full md:max-w-md mx-auto">
-        <div className="relative">
-          <Magnifier className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+    <div className="relative">
+      <form onSubmit={handleSearch} className="flex items-center gap-2">
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search lawyers..."
+          className="px-3 py-1 rounded-md text-black w-52"
+        />
 
-          <input
-            type="text"
-            placeholder="Search by name, specialization, location..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 text-gray-800 bg-white border border-gray-200 rounded-2xl shadow-md transition-all duration-300 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-100 focus:border-blue-500 hover:border-blue-300 hover:shadow-lg"
-          />
-        </div>
-      </div>
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-3 py-1 rounded-md"
+        >
+          {loading ? "..." : "Search"}
+        </button>
+      </form>
+
+      {error && (
+        <p className="absolute text-red-500 text-sm mt-1">{error}</p>
+      )}
     </div>
   );
-};
-
-export default Search;
+}
