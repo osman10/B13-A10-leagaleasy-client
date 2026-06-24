@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Dots9 } from "@gravity-ui/icons";
+import { Comment, Dots9 } from "@gravity-ui/icons";
 import { Person, ClockArrowRotateLeft } from "@gravity-ui/icons";
 
 const navItems = [
@@ -16,6 +16,11 @@ const navItems = [
     name: "Hiring History",
     href: "/dashboard/lawyer/history",
     icon: ClockArrowRotateLeft,
+  },
+    {
+    name: "Clients Comments",
+    href: "/dashboard/lawyer/comments",
+    icon: Comment,
   },
 ];
 
@@ -53,7 +58,7 @@ export default function Sidebar({ lawyer }) {
           md:translate-x-0
         `}
       >
-        <h1 className="text-2xl font-bold mb-8 bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600 bg-clip-text text-transparent">
+        <h1 className="text-2xl font-bold mb-8 bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600 bg-clip-text text-transparent text-center">
           {lawyer?.name}
         </h1>
 

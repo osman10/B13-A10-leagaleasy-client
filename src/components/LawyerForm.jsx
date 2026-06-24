@@ -159,9 +159,12 @@ export default function LawyerForm({ userId, lawyer }) {
 
   return (
     <div className="mx-auto p-6 bg-white shadow-xl rounded-2xl">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
-        Lawyer Profile Form
-      </h2>
+      <div class="text-center mb-3">
+        <h1 class="text-4xl font-bold text-gray-900 ">
+          Update Lawyer Profile
+        </h1>
+        <div class="mx-auto mt-3 h-1 w-24 rounded bg-blue-600"></div>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
 

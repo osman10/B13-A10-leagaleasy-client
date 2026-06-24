@@ -1,4 +1,4 @@
-import LawyerForm from '@/components/LawyerForm';
+import ClientForm from '@/components/ClientForm';
 import { getUserSession } from '@/lib/core/session';
 
 
@@ -9,7 +9,7 @@ const page =async () => {
   
     return (
         <div>
-            <LawyerForm userId={userId}/>
+            <ClientForm userId={userId}/>
         </div>
     );
 };
