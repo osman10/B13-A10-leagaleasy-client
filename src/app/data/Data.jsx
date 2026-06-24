@@ -176,7 +176,7 @@ export async function getHiringInfo() {
 }
 
 
-// Get single hiring info 
+// Get single approved hiring info 
 export async function getApprovedHiring(lawyerId, clientId, token) {
   try {
     const res = await fetch(
@@ -202,3 +202,4 @@ export async function getApprovedHiring(lawyerId, clientId, token) {
     return [];
   }
 }
+

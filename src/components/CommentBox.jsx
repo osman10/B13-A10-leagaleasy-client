@@ -171,7 +171,7 @@ export default function CommentBox({ lawyerId, userId, userImg }) {
           <button
             type="submit"
             disabled={posting}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
             {posting ? "Posting..." : "Post Comment"}
           </button>

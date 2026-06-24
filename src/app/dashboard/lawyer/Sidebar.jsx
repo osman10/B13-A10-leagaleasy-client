@@ -4,10 +4,19 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Dots9 } from "@gravity-ui/icons";
+import { Person, ClockArrowRotateLeft } from "@gravity-ui/icons";
 
 const navItems = [
-  { name: "Update Profile", href: "/dashboard/lawyer/profile-update" },
-  { name: "Heiring history", href: "/dashboard/lawyer/history" },
+  {
+    name: "Update Profile",
+    href: "/dashboard/lawyer/profile-update",
+    icon: Person,
+  },
+  {
+    name: "Hiring History",
+    href: "/dashboard/lawyer/history",
+    icon: ClockArrowRotateLeft,
+  },
 ];
 
 export default function Sidebar({ lawyer }) {
@@ -18,13 +27,11 @@ export default function Sidebar({ lawyer }) {
     const isActive = pathname === href;
 
     return `
-      block px-3 py-2 rounded transition
+      flex items-center gap-2 px-3 py-2 rounded transition
       ${isActive ? "bg-gray-800 text-white" : "text-gray-800"}
       hover:bg-gray-800 hover:text-white
     `;
   };
-
-
 
   return (
     <>
@@ -51,16 +58,21 @@ export default function Sidebar({ lawyer }) {
         </h1>
 
         <nav className="space-y-3">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className={linkClass(item.href)}
-            >
-              {item.name}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className={linkClass(item.href)}
+              >
+                <Icon className="w-5 h-5" />
+                {item.name}
+              </Link>
+            );
+          })}
         </nav>
       </aside>
     </>
