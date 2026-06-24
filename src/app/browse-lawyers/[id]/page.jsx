@@ -29,12 +29,12 @@ const Page = async ({ params }) => {
     headers: await headers()
   })
 
-const sessionUserId = id;
-const lawyer = await getLawyer(sessionUserId)
+  const sessionUserId = id;
+  const lawyer = await getLawyer(sessionUserId)
 
-const { _id, name, profileImage, specialization, consultationFee } = lawyer;
+  const { _id, name, profileImage, specialization, consultationFee } = lawyer;
 
-const date = new Date().toLocaleDateString("en-US", {
+  const date = new Date().toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -43,7 +43,7 @@ const date = new Date().toLocaleDateString("en-US", {
 
 
   // Hiring information to send database
-const hiringInfo = {
+  const hiringInfo = {
     lawyerId: _id,
     lawyerName: name,
     lawyerImg: profileImage,
@@ -53,6 +53,11 @@ const hiringInfo = {
     status: "Pending",
     date: date
   }
+
+
+
+
+
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -197,7 +202,7 @@ const hiringInfo = {
                 </button>
               ) : lawyer.status === "Offline" ? (
                 <button className="bg-green-500 text-white px-6 py-3 font-bold rounded-xl cursor-not-allowed opacity-80">
-                 Lawyer is Offline
+                  Lawyer is Offline
                 </button>
               ) : (
                 <HiringButton hiringInfo={hiringInfo} token={token} />
@@ -214,7 +219,10 @@ const hiringInfo = {
         </div>
       </div>
       {/* lawyerId, userId */}
-      <CommentBox lawyerId={_id} userId={sessionUserId} userImg={userImg}/>
+      <CommentBox
+        lawyerId={_id}
+        userId={userId}
+        userImg={userImg} />
       {/* lawyerId */}
       {/* <CommentList lawyerId={_id}/> */}
     </div>

@@ -174,3 +174,31 @@ export async function getHiringInfo() {
   }
   return res.json();
 }
+
+
+// Get single hiring info 
+export async function getApprovedHiring(lawyerId, clientId, token) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/hiring-info/approved?lawyerId=${lawyerId}&clientId=${clientId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store", // important for dynamic auth data
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch approved hiring info");
+    }
+
+    const data = await res.json();
+    return data?.data || [];
+  } catch (error) {
+    console.error("getApprovedHiring error:", error.message);
+    return [];
+  }
+}
