@@ -21,7 +21,11 @@ const navItems = [
     href: "/dashboard/admin/all-lawyers",
     icon: Persons,
   },
-
+  {
+    name: "All Clients",
+    href: "/dashboard/admin/all-clients",
+    icon: Persons,
+  },
 
 ];
 
