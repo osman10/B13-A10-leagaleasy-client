@@ -11,7 +11,6 @@ export default function AdmintForm({ userId, admin }) {
   const [form, setForm] = useState({
     name: "",
     phone: "",
-    email: "",
     address: "",
     profileImage: "",
   });
@@ -23,7 +22,6 @@ export default function AdmintForm({ userId, admin }) {
     setForm({
       name: admin.name || "",
       phone: admin.phone || "",
-      email: admin.email || "",
       address: admin.address || "",
       profileImage: admin.profileImage || "",
     });
@@ -135,14 +133,6 @@ export default function AdmintForm({ userId, admin }) {
           className="w-full p-3 border rounded-lg"
         />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          className="w-full p-3 border rounded-lg"
-        />
 
         <input
           type="text"

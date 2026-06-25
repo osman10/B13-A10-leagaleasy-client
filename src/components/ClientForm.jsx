@@ -11,7 +11,6 @@ export default function ClientForm({ userId, client }) {
   const [form, setForm] = useState({
     name: "",
     phone: "",
-    email: "",
     address: "",
     profileImage: "",
   });
@@ -23,7 +22,6 @@ export default function ClientForm({ userId, client }) {
     setForm({
       name: client.name || "",
       phone: client.phone || "",
-      email: client.email || "",
       address: client.address || "",
       profileImage: client.profileImage || "",
     });
@@ -135,14 +133,7 @@ export default function ClientForm({ userId, client }) {
           className="w-full p-3 border rounded-lg"
         />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          className="w-full p-3 border rounded-lg"
-        />
+
 
         <input
           type="text"
